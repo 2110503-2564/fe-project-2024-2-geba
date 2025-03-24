@@ -1,6 +1,5 @@
-export default async function userRegister(userName: string, userEmail: string, userTel: string, userPassword: string) {
-
-    const response = await fetch("https://cws-backend-five.vercel.app/api/v1/auth/register", {
+export default async function userRegister(userName: string, userEmail: string, userTel: string, userPassword: string, role: string) {
+    const response = await fetch("/api/auth/register", {  
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -9,13 +8,10 @@ export default async function userRegister(userName: string, userEmail: string, 
             name: userName,
             email: userEmail,
             password: userPassword,
-            tel: userTel
+            tel: userTel,
+            role: role
         }), 
     });
 
-    if (!response.ok) {
-        throw new Error("Failed to register");
-    } 
-
-    return await response.json();
+    return response; 
 }
