@@ -55,7 +55,7 @@ export default function ReservationList() {
       <div className="text-2xl font-bold m-3">Manage Reservations</div>
       {reservationItems.length === 0 ? (
         <div className="text-center text-gray-500 text-lg">
-          No Co-Working Space Booking
+          No Co-Working Space Reservation
         </div>
       ) : (
         reservationItems.map((item) => (
