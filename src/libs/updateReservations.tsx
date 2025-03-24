@@ -1,7 +1,7 @@
-export default async function createReservation(user: string, reserveDate: string, coWorkingSpace: string, token:string) {
+export default async function updateReservation(rid: string, user: string, reserveDate: string, coWorkingSpace: string, token:string) {
     
-    const response = await fetch("https://cws-backend-five.vercel.app/api/v1/reservations", {
-        method: "POST",
+    const response = await fetch(`https://cws-backend-five.vercel.app/api/v1/reservations/${rid}`, {
+        method: "PUT",
         headers: {
             authorization: `Bearer ${token}`,
             "Content-Type": "application/json"
@@ -14,7 +14,7 @@ export default async function createReservation(user: string, reserveDate: strin
     })
 
     if (!response.ok) {
-        throw new Error("Cannot create new Reservation")
+        throw new Error("Cannot update Reservation")
     }
 
     return await response.json()

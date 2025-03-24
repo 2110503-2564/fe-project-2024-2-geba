@@ -1,9 +1,13 @@
-export default async function getCoworkingSpace(vid:string, token:string) {
+export default async function getCoworkingSpace(cid:string, token:string) {
 
-    const response = await fetch(`https://a08-venue-explorer-backend-3.vercel.app/api/v1/venues/${vid}`)
+    const response = await fetch(`https://cws-backend-five.vercel.app/api/v1/coWorkingSpaces/${cid}`, {
+        headers: {
+            authorization: `Bearer ${token}`
+        }
+    })
 
     if (!response.ok) {
-        throw new Error("Failed to Fetch Venues")
+        throw new Error("Failed to Fetch Co-Working Space")
     }
     
     return await response.json()
