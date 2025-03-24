@@ -1,4 +1,4 @@
-export default async function getVenues() {
+export default async function getCoWorkingSpaces() {
 
     await new Promise((resolve) => setTimeout(resolve, 300))
 

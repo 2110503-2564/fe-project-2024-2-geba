@@ -7,23 +7,23 @@ import getUserProfile from "@/libs/getUserProfile";
 import { useState } from "react";
 import { useDispatch, UseDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
-import { BookingItem } from "../../../interface";
+import { ReservationItem } from "../../../interface";
 import { addBooking } from "@/redux/features/bookSlice";
 import dayjs, { Dayjs } from "dayjs";
 
-export default function Booking() {
-  // const session = await getServerSession(authOptions);
-  // if (!session || !session.user.token)
-  //   return (
-  //     <main className="w-[100%] flex flex-col items-center space-y-4">
-  //       <div className="font-semibold text-gray-600 text-xl text-center">
-  //         Please Sign in
-  //       </div>
-  //     </main>
-  //   );
+export default async function Booking() {
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user.token)
+    return (
+      <main className="w-[100%] flex flex-col items-center space-y-4">
+        <div className="font-semibold text-gray-600 text-xl text-center">
+          Please Sign in
+        </div>
+      </main>
+    );
 
-  // const profile = await getUserProfile(session.user.token);
-  // var createdAt = new Date(profile.data.createdAt);
+  const profile = await getUserProfile(session.user.token);
+  var createdAt = new Date(profile.data.createdAt);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -46,7 +46,7 @@ export default function Booking() {
 
   return (
     <main className="w-[100%] flex flex-col items-center space-y-4">
-      {/* <div className="text-2xl font-bold">User Profile</div>
+      <div className="text-2xl font-bold">User Profile</div>
       <table className="table-auto border-separate border-spacing-2 bg-gray-300 rounded-xl p-4">
         <tbody>
           <tr>
@@ -64,28 +64,6 @@ export default function Booking() {
           <tr>
             <td className="text-md font-semibold text-black">Member since</td>
             <td>{createdAt.toString()}</td>
-          </tr>
-        </tbody>
-      </table> */}
-
-      <div className="text-2xl font-bold">User Profile</div>
-      <table className="table-auto border-separate border-spacing-2 bg-gray-300 rounded-xl p-4">
-        <tbody>
-          <tr>
-            <td className="text-md font-semibold text-black">Name</td>
-            <td>A10 demo</td>
-          </tr>
-          <tr>
-            <td className="text-md font-semibold text-black">Email</td>
-            <td>A10 demo</td>
-          </tr>
-          <tr>
-            <td className="text-md font-semibold text-black">Tel.</td>
-            <td>A10 demo</td>
-          </tr>
-          <tr>
-            <td className="text-md font-semibold text-black">Member since</td>
-            <td>A10 demo</td>
           </tr>
         </tbody>
       </table>

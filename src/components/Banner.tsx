@@ -3,7 +3,6 @@ import { useState } from "react";
 import styles from "./banner.module.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ClassNames } from "@emotion/react";
 import { useSession } from "next-auth/react";
 
 export default function Banner() {
@@ -53,10 +52,10 @@ export default function Banner() {
                 hover:bg-black hover:text-white hover:border-transparent"
         onClick={(e) => {
           e.stopPropagation();
-          router.push("/venue");
+          router.push("/coworkingspace");
         }}
       >
-        Select Venue
+        Select Co-Working Space
       </button>
     </div>
   );

@@ -1,29 +1,23 @@
 
-export interface VenueItem {
+export interface CoWorkingSpaceItem {
   _id: string;
   name: string;
   address: string;
-  district: string;
-  province: string;
-  postalcode: string;
   tel: string;
-  picture: string;
-  dailyrate: number;
-  __v: number;
-  id: string;
+  open_time: string;
+  close_time: string;
 }
 
-export interface VenueJson {
+export interface CoWorkingSpaceJson {
   success: boolean;
   count: number;
   pagination: Object;
-  data: VenueItem[];
+  data: CoWorkingSpaceItem[];
 }
 
-export interface BookingItem {
-  nameLastname: string;
-  tel: string;
-  venue: string;
-  bookDate: string;
+export interface ReservationItem {
+  user: string;
+  reserveDate: string;
+  coWorkingSpace: string;
 }
 
