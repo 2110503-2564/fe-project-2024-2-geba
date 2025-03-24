@@ -20,7 +20,7 @@ export default async function CoWorkingSpaceList({coopJson} : {coopJson:Promise<
         }}
       >
         {coWorkingSpaceDetail.map((coop:CoWorkingSpaceItem) => (
-          <Link key={coop._id} href={`/coWorkingSpace/${coop._id}`} className="w-1/5">
+          <Link key={coop._id} href={`/coworkingspace/${coop._id}`} className="w-1/5">
             <Card
               coopName={coop.name}
               address={coop.address}

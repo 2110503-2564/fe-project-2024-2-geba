@@ -27,16 +27,16 @@ export default async function Reservation() {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const [reserveDate, setReserveDate] = useState<Dayjs | null>(null)
-  const [user, setUser] = useState<string | null>(null)
-  const [coWorkingSpace, setCoWorkingSpace] = useState<string>('Bloom') //change name
+  const [reserveDate, setReserveDate] = useState<Dayjs | null>(null);
+  const [user, setUser] = useState<string | null>(null);
+  const [coWorkingSpace, setCoWorkingSpace] = useState<string>("Nap Lab"); //change name
 
   const createReservation = () => {
-    if (user && reserveDate && coWorkingSpace ) {
+    if (user && reserveDate && coWorkingSpace) {
       const item: ReservationItem = {
         coWorkingSpace: coWorkingSpace,
         reserveDate: dayjs(reserveDate).format("YYYY/MM/DD"),
-        user : user
+        user: user,
       };
       dispatch(addReservation(item));
     }
@@ -75,15 +75,23 @@ export default async function Reservation() {
           variant="standard"
           name="User"
           label="User"
-          onChange={(e) => {setUser(e.target.value)}}
+          onChange={(e) => {
+            setUser(e.target.value);
+          }}
         ></TextField>
         <br />
         <div className="text-md text-left font-semibold text-gray-600 mt-5">
-          CoWorkingSpace Selection
+          Co-Working Space Selection
         </div>
-        <Select variant="standard" id="CoWorkingSpace" className="h-[2em] w-[200px]"
+        <Select
+          variant="standard"
+          id="CoWorkingSpace"
+          className="h-[2em] w-[200px]"
           value={coWorkingSpace}
-          onChange={(e) => {setCoWorkingSpace(e.target.value as string)}}>
+          onChange={(e) => {
+            setCoWorkingSpace(e.target.value as string);
+          }}
+        >
           <MenuItem value="Bloom">The Bloom Pavilion</MenuItem>
           <MenuItem value="Spark">Spark space</MenuItem>
           <MenuItem value="GrandTable">The Grand Table</MenuItem>//
@@ -91,7 +99,11 @@ export default async function Reservation() {
         <div className="text-md text-left font-semibold text-gray-600 mt-5">
           Reservation Date
         </div>
-        <DateReserve onDateChange={(value:Dayjs) => {setReserveDate(value)}}/>
+        <DateReserve
+          onDateChange={(value: Dayjs) => {
+            setReserveDate(value);
+          }}
+        />
       </div>
 
       <button

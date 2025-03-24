@@ -3,7 +3,7 @@ import { removeReservation } from "@/redux/features/bookSlice";
 import { useAppSelector, AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 
-export default function BookingList() {
+export default function ReservationList() {
   const bookItems = useAppSelector((state) => state.bookSlice.reservationItems);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -11,7 +11,7 @@ export default function BookingList() {
     <div className="mx-5 my-5">
       {bookItems.length === 0 ? (
         <div className="text-center text-gray-500 text-lg">
-          No Co-Working Space Booking
+          No Co-Working Space Reservation
         </div>
       ) : (
         bookItems.map((item) => (
