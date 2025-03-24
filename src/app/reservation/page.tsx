@@ -7,11 +7,11 @@ import getUserProfile from "@/libs/getUserProfile";
 import { useState } from "react";
 import { useDispatch, UseDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
-import { ReservationItem } from "../../../interface";
-import { addBooking } from "@/redux/features/bookSlice";
+import { addReservation } from "@/redux/features/bookSlice";
 import dayjs, { Dayjs } from "dayjs";
+import { ReservationItem } from "../../../interface";
 
-export default async function Booking() {
+export default async function Reservation() {
   const session = await getServerSession(authOptions);
   if (!session || !session.user.token)
     return (
@@ -28,19 +28,17 @@ export default async function Booking() {
   const dispatch = useDispatch<AppDispatch>();
 
   const [reserveDate, setReserveDate] = useState<Dayjs | null>(null)
-  const [name, setName] = useState<string | null>(null)
-  const [tel, setTel] = useState<string | null>(null)
-  const [venue, setVenue] = useState<string>('Bloom')
+  const [user, setUser] = useState<string | null>(null)
+  const [coWorkingSpace, setCoWorkingSpace] = useState<string>('Bloom') //change name
 
-  const createBooking = () => {
-    if (reserveDate && name && tel && venue) {
-      const item: BookingItem = {
-        venue: venue,
-        bookDate: dayjs(reserveDate).format("YYYY/MM/DD"),
-        tel: tel,
-        nameLastname: name,
+  const createReservation = () => {
+    if (user && reserveDate && coWorkingSpace ) {
+      const item: ReservationItem = {
+        coWorkingSpace: coWorkingSpace,
+        reserveDate: dayjs(reserveDate).format("YYYY/MM/DD"),
+        user : user
       };
-      dispatch(addBooking(item));
+      dispatch(addReservation(item));
     }
   };
 
@@ -71,30 +69,24 @@ export default async function Booking() {
       <div className="text-2xl font-bold">New Reservation</div>
       <div className="w-fit">
         <div className="text-md text-left font-semibold text-gray-600 mt-5">
-          Booking Information
+          Reservation Information
         </div>
         <TextField
           variant="standard"
-          name="Name-Lastname"
-          label="Name-Lastname"
-          onChange={(e) => {setName(e.target.value)}}
+          name="User"
+          label="User"
+          onChange={(e) => {setUser(e.target.value)}}
         ></TextField>
         <br />
-        <TextField
-          variant="standard"
-          name="Contact-Number"
-          label="Contact-Number"
-          onChange={(e) => {setTel(e.target.value)}}
-        ></TextField>
         <div className="text-md text-left font-semibold text-gray-600 mt-5">
-          Venue Selection
+          CoWorkingSpace Selection
         </div>
-        <Select variant="standard" id="venue" className="h-[2em] w-[200px]"
-          value={venue}
-          onChange={(e) => {setVenue(e.target.value as string)}}>
+        <Select variant="standard" id="CoWorkingSpace" className="h-[2em] w-[200px]"
+          value={coWorkingSpace}
+          onChange={(e) => {setCoWorkingSpace(e.target.value as string)}}>
           <MenuItem value="Bloom">The Bloom Pavilion</MenuItem>
           <MenuItem value="Spark">Spark space</MenuItem>
-          <MenuItem value="GrandTable">The Grand Table</MenuItem>
+          <MenuItem value="GrandTable">The Grand Table</MenuItem>//
         </Select>
         <div className="text-md text-left font-semibold text-gray-600 mt-5">
           Reservation Date
@@ -103,11 +95,11 @@ export default async function Booking() {
       </div>
 
       <button
-        name="Book Venue"
+        name="Reserve CoWorkingSpace"
         className="block rounded-md bg-sky-600 hover:bg-green-600 px-3 py-2 text-white shadow-sm"
-        onClick={createBooking}
+        onClick={createReservation}
       >
-        Book Venue
+        Reserve Co-Working Space
       </button>
     </main>
   );

@@ -9,7 +9,7 @@ export default function CoWorkingSpaceInfo() {
 
     return (
         <main className="text-center p-5">
-            <div className="font-bold text-2xl text-center">Select your Venue</div>
+            <div className="font-bold text-2xl text-center">Select your Co-Working Space</div>
             <Suspense fallback={<p>Loading ... <LinearProgress/> </p>}>
                 <CoWorkingSpaceList coopJson={coops}/>
             </Suspense>

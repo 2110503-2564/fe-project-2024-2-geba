@@ -8,19 +8,19 @@ type BookState = {
 const initialState: BookState = { reservationItems : [] };
 
 export const bookSlice = createSlice({
-  name: "booking",
+  name: "reservation",
   initialState,
   reducers: {
-    addBooking: (state, action: PayloadAction<ReservationItem>) => {
+    addReservation: (state, action: PayloadAction<ReservationItem>) => {
       const replace = state.reservationItems .find
-        (booking => booking.reserveDate === action.payload.reserveDate && booking.coWorkingSpace === action.payload.coWorkingSpace)
+        (reservation => reservation.reserveDate === action.payload.reserveDate && reservation.coWorkingSpace === action.payload.coWorkingSpace)
       if (replace) {
         replace.user = action.payload.user;
       } else {
         state.reservationItems .push(action.payload);
       }
     },
-    removeBooking: (state, action: PayloadAction<ReservationItem>) => {
+    removeReservation: (state, action: PayloadAction<ReservationItem>) => {
       const RemainItems = state.reservationItems .filter((obj) => {
         return (
           (obj.reserveDate !== action.payload.reserveDate) ||
@@ -33,5 +33,5 @@ export const bookSlice = createSlice({
   },
 });
 
-export const { addBooking, removeBooking } = bookSlice.actions;
+export const { addReservation, removeReservation } = bookSlice.actions;
 export default bookSlice.reducer;

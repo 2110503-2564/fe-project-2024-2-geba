@@ -22,9 +22,9 @@ export default async function TopMenu() {
           </div>
         </Link>
       )}
-      <TopMenuItem title="My Booking" pageRef="/mybooking"/>
+      <TopMenuItem title="My Reservation" pageRef="/myreservation"/>
 
-      <TopMenuItem title="Booking" pageRef="/booking" />
+      <TopMenuItem title="Reservation" pageRef="/reservation" />
       <Link key="home" href="/">
         <Image
           src={"/img/logo.png"}

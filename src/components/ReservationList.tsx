@@ -1,5 +1,5 @@
 "use client";
-import { removeBooking } from "@/redux/features/bookSlice";
+import { removeReservation } from "@/redux/features/bookSlice";
 import { useAppSelector, AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 
@@ -24,7 +24,7 @@ export default function BookingList() {
             <div className="text-md">Co-Working Space: {item.coWorkingSpace}</div>
             <button
               className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-2 py-1 text-white shadow-sm text-sm mt-1"
-              onClick={() => dispatch(removeBooking(item))}
+              onClick={() => dispatch(removeReservation(item))}
             >
               Cancel Reservation
             </button>
