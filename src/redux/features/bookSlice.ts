@@ -1,36 +1,34 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BookingItem } from "../../../interface";
+import { ReservationItem } from "../../../interface";
 
 type BookState = {
-  bookItems: BookingItem[];
+  reservationItems : ReservationItem[];
 };
 
-const initialState: BookState = { bookItems: [] };
+const initialState: BookState = { reservationItems : [] };
 
 export const bookSlice = createSlice({
   name: "booking",
   initialState,
   reducers: {
-    addBooking: (state, action: PayloadAction<BookingItem>) => {
-      const replace = state.bookItems.find
-        (booking => booking.bookDate === action.payload.bookDate && booking.venue === action.payload.venue)
+    addBooking: (state, action: PayloadAction<ReservationItem>) => {
+      const replace = state.reservationItems .find
+        (booking => booking.reserveDate === action.payload.reserveDate && booking.coWorkingSpace === action.payload.coWorkingSpace)
       if (replace) {
-        replace.nameLastname = action.payload.nameLastname;
-        replace.tel = action.payload.tel;
+        replace.user = action.payload.user;
       } else {
-        state.bookItems.push(action.payload);
+        state.reservationItems .push(action.payload);
       }
     },
-    removeBooking: (state, action: PayloadAction<BookingItem>) => {
-      const RemainItems = state.bookItems.filter((obj) => {
+    removeBooking: (state, action: PayloadAction<ReservationItem>) => {
+      const RemainItems = state.reservationItems .filter((obj) => {
         return (
-          (obj.bookDate !== action.payload.bookDate) ||
-          (obj.nameLastname !== action.payload.nameLastname) ||
-          (obj.tel !== action.payload.tel) ||
-          (obj.venue !== action.payload.venue)
+          (obj.reserveDate !== action.payload.reserveDate) ||
+          (obj.user !== action.payload.user) ||
+          (obj.coWorkingSpace !== action.payload.coWorkingSpace)
         );
       });
-      state.bookItems = RemainItems;
+      state.reservationItems  = RemainItems;
     },
   },
 });
