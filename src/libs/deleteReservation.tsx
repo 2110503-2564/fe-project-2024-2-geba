@@ -1,4 +1,4 @@
-export default async function updateReservation(rid: string, token:string) {
+export default async function deleteReservation(rid: string, token:string) {
     
     const response = await fetch(`https://cws-backend-five.vercel.app/api/v1/reservations/${rid}`, {
         method: "DELETE",

@@ -40,12 +40,6 @@ export default function Banner() {
         </h3>
       </div>
 
-      {session ? (
-        <div className="z-30 absolute top-5 right-10 font-semibold text-white text-xl">
-          Hello {session.user?.name}{" "}
-        </div>
-      ) : null}
-
       <button
         className="bg-white border border-black
                 font-semibold py-2 px-2 m-2 rounded z-30 absolute bottom-0 right-0

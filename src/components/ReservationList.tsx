@@ -1,33 +1,100 @@
 "use client";
-import { removeReservation } from "@/redux/features/bookSlice";
-import { useAppSelector, AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import getReservations from "@/libs/getReservations";
+import deleteReservation from "@/libs/deleteReservation";
+import { ReservationItem } from "../../interface";
+import { useSession } from "next-auth/react";
 
-export default function BookingList() {
-  const bookItems = useAppSelector((state) => state.bookSlice.reservationItems);
-  const dispatch = useDispatch<AppDispatch>();
+export default function ReservationList() {
+  const [reservationItems, setReservationItems] = useState<ReservationItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const { data: session } = useSession();
+
+  if (!session || !session.user.token) {
+    return (
+      <main className="w-[100%] flex flex-col items-center space-y-4">
+        <div className="font-semibold text-gray-600 text-xl text-center">
+          Please Sign in
+        </div>
+      </main>
+    );
+  }
+
+  useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        const response = await getReservations(session.user.token);
+        setReservationItems(
+          Array.isArray(response.data) ? response.data.flat() : []
+        );
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message || "An error occurred");
+        } else {
+          setError("An unexpected error occurred");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReservations();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center text-gray-500 text-lg">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-500 text-lg">{error}</div>;
+  }
 
   return (
     <div className="mx-5 my-5">
-      {bookItems.length === 0 ? (
+      <div className="text-2xl font-bold m-3">Manage Reservations</div>
+      {reservationItems.length === 0 ? (
         <div className="text-center text-gray-500 text-lg">
           No Co-Working Space Booking
         </div>
       ) : (
-        bookItems.map((item) => (
+        reservationItems.map((item) => (
           <div
-            key={item.user}
-            className="bg-white rounded-lg px-5 py-3 my-3"
+            key={item._id}
+            className="bg-white rounded-lg px-5 py-3 my-3 hover:shadow-lg"
           >
-            <div className="text-lg font-semibold">User: {item.user}</div>
+            <div className="text-lg font-semibold">User: {item.user.name}</div>
             <div className="text-md">Reserve Date: {item.reserveDate}</div>
-            <div className="text-md">Co-Working Space: {item.coWorkingSpace}</div>
-            <button
-              className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-2 py-1 text-white shadow-sm text-sm mt-1"
-              onClick={() => dispatch(removeReservation(item))}
-            >
-              Cancel Reservation
-            </button>
+            <div className="text-md">
+              Co-Working Space: {item.coWorkingSpace.name}
+            </div>
+            <div className="flex justify-start mt-2">
+              <button
+                className="rounded-md bg-red-500 hover:bg-red-800 px-3 py-1 text-black shadow-sm text-sm mr-3"
+                onClick={async () => {
+                  try {
+                    await deleteReservation(item._id, session.user.token);
+
+                    setReservationItems((prevItems) =>
+                      prevItems.filter((res) => res._id !== item._id)
+                    );
+                  } catch (err) {
+                    console.error("Failed to delete reservation:", err);
+                  }
+                }}
+              >
+                Cancel Reservation
+              </button>
+              <button
+                className="rounded-md bg-green-600 hover:bg-green-700 px-3 py-1 text-white shadow-sm text-sm"
+                onClick={() => {
+                  // Implement the logic to handle editing the reservation
+                  console.log(`Edit reservation for ${item._id}`);
+                }}
+              >
+                Edit Reservation
+              </button>
+            </div>
           </div>
         ))
       )}

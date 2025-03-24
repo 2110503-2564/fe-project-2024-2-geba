@@ -6,6 +6,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 export default async function TopMenu() {
   const session = await getServerSession(authOptions);
+  console.log(session);
 
   return (
     <div className="h-[50px] bg-gray-800 fixed top-0 left-0 justify-end right-0 z-30 flex flex-rowitems-center px-4">
@@ -13,7 +14,7 @@ export default async function TopMenu() {
       {session ? (
         <Link href="/api/auth/signout">
           <div className="flex items-center absolute left-0 h-full px-5 text-white text-sm font-semibold bg-gray-700">
-            Sign out of {session.user?.name}
+            Sign out
           </div>
         </Link>
 
