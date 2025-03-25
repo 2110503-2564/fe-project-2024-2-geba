@@ -8,7 +8,7 @@ export default function Register() {
     email: "",
     tel: "",
     password: "",
-    role: "",
+    role: "user",
   });
   const [message, setMessage] = useState("");
 
@@ -27,7 +27,7 @@ export default function Register() {
     if (res.ok) {
       setMessage("Registration successful! You can now log in.");
     } else {
-      setMessage(data.error || "Something went wrong");
+      setMessage("This user already Exist! Please log in.");
     }
   };
 
@@ -88,7 +88,7 @@ export default function Register() {
           Sign Up
         </button>
       </form>
-      <p className="text-red-500 mt-3">{message}</p>
+      <p className="text-red-600 mt-3 ">{message}</p>
     </div>
   );
 }
