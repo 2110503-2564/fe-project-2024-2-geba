@@ -1,6 +1,6 @@
 export default async function getReservations(token: string) {
   const response = await fetch(
-    "https://cws-backend-five.vercel.app/api/v1/reservations",
+    `${process.env.BACKEND_URL}/api/v1/reservations`,
     {
       method: "GET",
       headers: {
