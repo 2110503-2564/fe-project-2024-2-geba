@@ -1,6 +1,6 @@
 export default async function getCoWorkingSpaces(token:string) {
 
-    const response = await fetch("https://cws-backend-five.vercel.app/api/v1/coWorkingSpaces", {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/coWorkingSpaces`, {
         method: "GET",
         headers: {
             authorization: `Bearer ${token}`
