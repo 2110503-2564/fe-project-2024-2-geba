@@ -65,7 +65,7 @@ export default function ReservationList() {
         reservationItems.map((item) => (
           <div
             key={item._id}
-            className="bg-white rounded-lg px-5 py-3 my-3 hover:shadow-lg"
+            className="bg-gray-100 rounded-lg px-5 py-3 my-3 hover:shadow-lg"
           >
             <div className="text-lg font-semibold">User: {item.user.name}</div>
             <div className="text-md">

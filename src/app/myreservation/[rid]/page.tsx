@@ -77,7 +77,8 @@ export default function EditReservation() {
   }
 
   return (
-    <main className="w-[100%] flex flex-col items-center space-y-4">
+    <div className="w-[30%] bg-white p-6 rounded-lg shadow-6xl flex flex-col items-center
+     space-y-4 border border-gray-300 mx-auto my-20">
       <div className="text-2xl font-bold">Edit Your Reservation</div>
       <div className="w-fit">
         <div className="text-md text-left font-semibold text-gray-600 mt-5">
@@ -114,6 +115,6 @@ export default function EditReservation() {
         Confirm Editing
       </Button>
       <p className="text-red-500 mt-3">{message}</p>
-    </main>
+    </div>
   );
 }

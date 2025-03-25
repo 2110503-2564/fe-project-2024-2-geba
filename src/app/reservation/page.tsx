@@ -86,11 +86,12 @@ export default function Reservation() {
   }
 
   return (
-    <main className="w-[100%] flex flex-col items-center space-y-4">
+    <div className="w-[40%] bg-white p-6 rounded-lg shadow-6xl flex flex-col items-center
+     space-y-4 border border-gray-300 mx-auto my-20">
       <div className="text-2xl font-bold">
         {profile?.role === "admin" ? "Admin Profile" : "User Profile"}
       </div>
-      <table className="table-auto border-separate border-spacing-2 bg-gray-300 rounded-xl p-4">
+      <table className="table-auto border-separate border-spacing-2 bg-gray-200 rounded-xl p-4">
         <tbody>
           <tr>
             <td className="text-md font-semibold text-black">Name</td>
@@ -155,6 +156,6 @@ export default function Reservation() {
         Reserve Co-Working Space
       </Button>
       <p className="text-red-500 mt-3">{message}</p>
-    </main>
+    </div>
   );
 }

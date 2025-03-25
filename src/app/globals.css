@@ -91,4 +91,8 @@ body {
 
 body {
   margin-top: 50px;
+  background-image: url('/img/background.jpg'), linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }

@@ -13,10 +13,6 @@ export default async function createReservation(
         reserveDate: reserveDate.toISOString() 
       }), 
     });
-
-    if (!response.ok) {
-      throw new Error("Failed to create Reservation")
-    }
   
     return await response.json();
   }

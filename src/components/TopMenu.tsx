@@ -13,7 +13,7 @@ export default async function TopMenu() {
   
       {session ? (
         <Link href="/api/auth/signout">
-          <div className="flex items-center absolute left-0 h-full px-5 
+          <div className="flex items-center absolute left-0 h-full px-5 rounded
           text-white text-sm font-semibold bg-gray-700 hover:text-black hover:bg-gray-300">
             Sign out
           </div>
@@ -24,13 +24,13 @@ export default async function TopMenu() {
         <div className="flex gap-2 absolute left-0 h-full">
           <Link href="/api/auth/signin">
             <div className="flex items-center px-5 text-white text-sm font-semibold 
-            bg-gray-700 h-full hover:text-black hover:bg-gray-300">
+            rounded bg-gray-700 h-full hover:text-black hover:bg-gray-300">
               Sign in
             </div>
           </Link>
           <Link href="/register">
             <div className="flex items-center px-5 text-white text-sm font-semibold 
-            bg-gray-700 h-full hover:text-black hover:bg-gray-300">
+            rounded bg-gray-700 h-full hover:text-black hover:bg-gray-300">
               Register
             </div>
           </Link>

@@ -33,24 +33,27 @@ export default function Banner() {
         style={{ backdropFilter: "blur(4px)" }}
       />
       <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4">
-        <h1 className={`text-5xl text-white font-semibold font-mono bg-transparent ${styles.textshadow}`}>
+        <h1
+          className={`text-5xl text-white font-semibold font-mono bg-transparent ${styles.textshadow}`}
+        >
           Where creativity meets collaboration
         </h1>
-        <h3 className={`text-2xl text-white font-medium font-sans bg-transparent ${styles.textshadow}`}>
+        <h3
+          className={`text-2xl text-white font-medium font-sans bg-transparent ${styles.textshadow}`}
+        >
           Empowering your ideas in a dynamic workspace.
         </h3>
-      </div>
-
-      <button
-        className="bg-white border border-black font-semibold py-2 px-2 m-2 rounded z-30 absolute bottom-4 right-4
+        <button
+          className="mt-6 bg-white font-semibold py-2 px-4 rounded z-30
                 hover:bg-gray-800 hover:text-white hover:border-transparent"
-        onClick={(e) => {
-          e.stopPropagation();
-          router.push("/coworkingspace");
-        }}
-      >
-        Select Co-Working Space
-      </button>
+          onClick={(e) => {
+            e.stopPropagation();
+            router.push("/coworkingspace");
+          }}
+        >
+          Select Co-Working Space
+        </button>
+      </div>
     </div>
   );
 }
