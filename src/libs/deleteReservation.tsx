@@ -7,5 +7,9 @@ export default async function deleteReservation(rid: string, token:string) {
         }, 
     })
 
+    if (!response.ok) {
+        throw new Error("Failed to delete Reservation")
+      }
+
     return await response.json()
 }

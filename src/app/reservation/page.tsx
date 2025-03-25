@@ -70,7 +70,7 @@ export default function Reservation() {
         selectedSpace
       );
 
-      if (!response.ok) {
+      if (!response.success) {
         setMessage(response.message);
         return;
       }

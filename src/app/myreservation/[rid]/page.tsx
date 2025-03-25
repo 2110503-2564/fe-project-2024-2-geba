@@ -75,7 +75,7 @@ export default function EditReservation() {
         session.user.token
       );
 
-      if (!response.ok) {
+      if (!response.success) {
         setMessage(response.message)
         return;
       }
