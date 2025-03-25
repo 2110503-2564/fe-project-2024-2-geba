@@ -14,7 +14,7 @@ export default function Banner() {
   ];
   const [index, setIndex] = useState(0);
   const router = useRouter();
-  const {data:session} = useSession();
+  const { data: session } = useSession();
 
   return (
     <div
@@ -32,11 +32,10 @@ export default function Banner() {
       />
       <div className={styles.bannerText}>
         <h1 className="text-5xl text-white font-semibold font-mono bg-transparent backdrop-blur-md">
-          where every event finds its venue
+          Where creativity meets collaboration
         </h1>
         <h3 className="text-2xl text-white font-medium font-sans backdrop-blur-md">
-          Finding venue has never been easier, whether it's a wedding, blap blap
-          yap yap blah blah blah
+          Empowering your ideas in a dynamic workspace.
         </h3>
       </div>
 
