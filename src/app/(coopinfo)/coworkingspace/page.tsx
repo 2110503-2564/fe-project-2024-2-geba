@@ -9,8 +9,8 @@ export default async function CoWorkingSpaceInfo() {
   const session = await getServerSession(authOptions);
   if (!session || !session.user.token)
     return (
-      <main className="w-[100%] flex flex-col items-center space-y-4">
-        <div className="font-semibold text-gray-600 text-xl text-center">
+      <main className="w-full h-screen flex flex-col items-center justify-center space-y-4 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/background.avif')" }}>
+        <div className="w-[20%] bg-red-600 p-6 rounded-lg shadow-6xl flex flex-col items-center space-y-4 mx-auto my-20 font-bold text-2xl text-gray-800">
           Please Sign in
         </div>
       </main>

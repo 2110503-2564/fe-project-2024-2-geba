@@ -69,7 +69,7 @@ export default function EditReservation() {
         />
 
         <div className="text-md text-left font-semibold text-gray-600 mt-5">
-          Co-Working Space Selection
+          Co-Working Space Selected
         </div>
         <div className="font-semibold">{spaceData.name}</div>
 

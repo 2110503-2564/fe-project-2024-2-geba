@@ -33,11 +33,11 @@ export default function Register() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <h2 className="text-2xl font-bold mb-4">Register</h2>
       <form
         onSubmit={handleRegister}
         className="w-1/3 bg-white p-6 rounded-lg shadow-lg"
       >
+        <h2 className="text-2xl font-bold mb-4">Register</h2>
         <input
           type="text"
           placeholder="Name"
