@@ -19,8 +19,9 @@ export default async function CoWorkingSpaceInfo() {
   const coops = await getCoWorkingSpaces(session.user.token);
 
   return (
-    <main className="text-center p-5">
-      <div className="font-bold text-2xl text-center">
+    <main className="w-[80%] bg-white p-6 rounded-lg shadow-6xl flex flex-col
+     space-y-4 border border-gray-300 mx-auto my-20">
+      <div className="font-bold text-2xl text-center mb-4">
         Select your Co-Working Space
       </div>
       <Suspense

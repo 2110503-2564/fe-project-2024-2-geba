@@ -2,24 +2,14 @@ import Link from "next/link";
 import Card from "./Card";
 import { CoWorkingSpaceItem, CoWorkingSpaceJson } from "../../interface";
 
-export default async function CoWorkingSpaceList({coopJson} : {coopJson:CoWorkingSpaceJson}) {
-
-    const JsonYay = await coopJson
-    const coWorkingSpaceDetail = JsonYay.data
+export default async function CoWorkingSpaceList({ coopJson }: { coopJson: CoWorkingSpaceJson }) {
+  const JsonYay = await coopJson;
+  const coWorkingSpaceDetail = JsonYay.data;
 
   return (
     <div>
-      <div
-        style={{
-          margin: "20px",
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "space-around",
-          alignContent: "space-around",
-        }}
-      >
-        {coWorkingSpaceDetail.map((coop:CoWorkingSpaceItem) => (
+      <div className="mx-5 flex flex-wrap justify-around gap-1 gap-y-[20px]">
+        {coWorkingSpaceDetail.map((coop: CoWorkingSpaceItem) => (
           <Link key={coop._id} href={`/coworkingspace/${coop._id}`} className="w-1/5">
             <Card
               coopName={coop.name}

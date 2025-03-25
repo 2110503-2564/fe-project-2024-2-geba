@@ -23,19 +23,20 @@ export default async function CoopDetailPage({
   const coopDetail = await getCoworkingSpace(params.cid, session.user.token);
 
   return (
-    <main className="text-center p-5">
-      <h1 className="text-xl font-bold">{coopDetail.data.name}</h1>
+    <main className="w-[80%] bg-white p-6 rounded-lg shadow-6xl flex flex-col
+     space-y-4 border border-gray-300 mx-auto my-20">
+      <h1 className="text-2xl font-bold">{coopDetail.data.name}</h1>
       <div className="flex flex-row my-5 ">
-        {/* <Image
-          src={coopDetail.data.picture}
+        <Image
+          src="/img/mockimage.avif"
           alt="Coop Image"
           width={0}
           height={0}
           sizes="100vw"
           className="rounded-lg w-[30%]"
-        /> */}
-        <div className="text-md mx-5 text-left">
-          <div className="font-semibold">Name: {coopDetail.data.name}</div>
+        />
+        <div className="text-lg mx-5 text-left">
+          <div>Name: {coopDetail.data.name}</div>
           <div>Address: {coopDetail.data.address}</div>
           <div>Tel: {coopDetail.data.tel}</div>
           <div>Open time: {coopDetail.data.open_time}</div>
