@@ -18,31 +18,32 @@ export default function Banner() {
 
   return (
     <div
-      className={styles.banner}
-      onClick={() => {
-        setIndex(index + 1);
-      }}
+      className={`relative w-screen h-screen ${styles.banner}`}
+      onClick={() => setIndex(index + 1)}
     >
       <Image
-        src={covers[index % 4]}
+        src={covers[index % covers.length]}
         alt="cover"
-        fill={true}
+        fill
         priority
-        objectFit="cover"
+        style={{ objectFit: "cover" }}
       />
-      <div className={styles.bannerText}>
-        <h1 className="text-5xl text-white font-semibold font-mono bg-transparent backdrop-blur-md">
+      <div
+        className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50"
+        style={{ backdropFilter: "blur(4px)" }}
+      />
+      <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4">
+        <h1 className={`text-5xl text-white font-semibold font-mono bg-transparent ${styles.textshadow}`}>
           Where creativity meets collaboration
         </h1>
-        <h3 className="text-2xl text-white font-medium font-sans backdrop-blur-md">
+        <h3 className={`text-2xl text-white font-medium font-sans bg-transparent ${styles.textshadow}`}>
           Empowering your ideas in a dynamic workspace.
         </h3>
       </div>
 
       <button
-        className="bg-white border border-black
-                font-semibold py-2 px-2 m-2 rounded z-30 absolute bottom-0 right-0
-                hover:bg-black hover:text-white hover:border-transparent"
+        className="bg-white border border-black font-semibold py-2 px-2 m-2 rounded z-30 absolute bottom-4 right-4
+                hover:bg-gray-800 hover:text-white hover:border-transparent"
         onClick={(e) => {
           e.stopPropagation();
           router.push("/coworkingspace");
