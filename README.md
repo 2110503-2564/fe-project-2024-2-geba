@@ -1,1 +1,1 @@
-Vercel: https://c12-frontend.vercel.app/
+Vercel: https://cws-frontend-black.vercel.app/
