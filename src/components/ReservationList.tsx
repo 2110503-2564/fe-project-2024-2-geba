@@ -98,6 +98,10 @@ export default function ReservationList() {
                     "coWorkingSpace",
                     JSON.stringify(item.coWorkingSpace)
                   );
+                  sessionStorage.setItem(
+                    "userName",
+                    JSON.stringify(item.user)
+                  );
                   router.push(`/myreservation/${item._id}`);
                 }}
               >

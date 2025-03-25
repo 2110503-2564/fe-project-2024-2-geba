@@ -1,14 +1,11 @@
 "use client";
 import { useRouter, useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DateReserve from "@/components/DateReserve";
-import { Select, MenuItem, TextField, Button } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import updateReservation from "@/libs/updateReservations";
-import getUserProfile from "@/libs/getUserProfile";
-import dayjs, { Dayjs } from "dayjs";
-import { CoWorkingSpaceItem, User } from "../../../../interface";
-import getCoWorkingSpaces from "@/libs/getCoWorkingSpaces";
+import { Dayjs } from "dayjs";
 
 export default function EditReservation() {
   const router = useRouter();
@@ -27,29 +24,12 @@ export default function EditReservation() {
   }
 
   const [reserveDate, setReserveDate] = useState<Dayjs | null>(null);
-  const [user, setUser] = useState<string>("");
-  const [profile, setProfile] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState("");
   const spaceData = JSON.parse(sessionStorage.getItem("coWorkingSpace") || "{}");
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await getUserProfile(session.user.token);
-        setProfile(response.data);
-        setUser(response.data._id);
-      } catch (error) {
-        console.error("Failed to fetch User Profile");
-      }
-    };
-
-    fetchUser();
-    setLoading(false);
-  }, []);
+  const nameData = JSON.parse(sessionStorage.getItem("userName") || "{}");
 
   const handleEdit = async () => {
-    if (!session || !user || !reserveDate) {
+    if (!session || !reserveDate) {
       setMessage("All fields must be filled before submission.");
       return;
     }
@@ -72,10 +52,6 @@ export default function EditReservation() {
     }
   };
 
-  if (loading) {
-    return <div className="text-center text-gray-500 text-lg">Loading...</div>;
-  }
-
   return (
     <div className="w-[30%] bg-white p-6 rounded-lg shadow-6xl flex flex-col items-center
      space-y-4 border border-gray-300 mx-auto my-20">
@@ -88,7 +64,7 @@ export default function EditReservation() {
           variant="standard"
           name="User"
           label="User"
-          value={profile?.name || ""}
+          value={nameData.name}
           disabled
         />
 
