@@ -7,9 +7,5 @@ export default async function deleteReservation(rid: string, token:string) {
         }, 
     })
 
-    if (!response.ok) {
-        throw new Error("Cannot remove Reservation")
-    }
-
     return await response.json()
 }

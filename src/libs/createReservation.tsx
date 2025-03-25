@@ -10,14 +10,9 @@ export default async function createReservation(
         "Content-Type": "application/json"
       }, 
       body: JSON.stringify({
-        reserveDate: reserveDate.toISOString() // Ensures proper date format
+        reserveDate: reserveDate.toISOString() 
       }), 
     });
-  
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(`Cannot create reservation: ${errorData.message}`);
-    }
   
     return await response.json();
   }

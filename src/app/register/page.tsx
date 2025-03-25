@@ -75,10 +75,9 @@ export default function Register() {
             onChange={(e) =>
               setForm({ ...form, role: e.target.checked ? "admin" : "user" })
             }
-            required
           />
           <label className="text-gray-700" htmlFor="role">
-            Role
+            Admin
           </label>
         </div>
 

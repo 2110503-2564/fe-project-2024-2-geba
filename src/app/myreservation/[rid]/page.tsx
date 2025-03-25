@@ -1,15 +1,19 @@
 "use client";
+import { useRouter, useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import DateReserve from "@/components/DateReserve";
 import { Select, MenuItem, TextField, Button } from "@mui/material";
-import createReservation from "@/libs/createReservation";
+import updateReservation from "@/libs/updateReservations";
 import getUserProfile from "@/libs/getUserProfile";
-import { useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
-import { CoWorkingSpaceItem, User } from "../../../interface";
-import { useSession } from "next-auth/react";
+import { CoWorkingSpaceItem, User } from "../../../../interface";
 import getCoWorkingSpaces from "@/libs/getCoWorkingSpaces";
 
-export default function Reservation() {
+export default function EditReservation() {
+  const router = useRouter();
+  const params = useParams();
+  const rid = params.rid;
   const { data: session } = useSession();
 
   if (!session || !session.user.token) {
@@ -47,6 +51,7 @@ export default function Reservation() {
       try {
         const response = await getCoWorkingSpaces(session.user.token);
         setCoWorkingSpaces(response.data);
+        console.log(coWorkingSpaces);
       } catch (error) {
         console.error("Failed to fetch co-working spaces:", error);
       }
@@ -57,27 +62,27 @@ export default function Reservation() {
     setLoading(false);
   }, []);
 
-  const handleReservation = async () => {
+  const handleEdit = async () => {
     if (!session || !user || !selectedSpace || !reserveDate) {
       setMessage("All fields must be filled before submission.");
       return;
     }
 
     try {
-      const response = await createReservation(
-        session.user.token,
+      const response = await updateReservation(
+        rid as string,
         reserveDate.toDate(),
-        selectedSpace
+        session.user.token
       );
 
       if (!response.ok) {
-        setMessage(response.message);
+        setMessage(response.message)
         return;
       }
 
-      alert("Reservation created successfully!");
+      alert("Reservation edited, Close this page");
     } catch (error) {
-      setMessage("Unexpected Error Occured");
+      setMessage("Unexpected Error Occurred");
     }
   };
 
@@ -87,31 +92,7 @@ export default function Reservation() {
 
   return (
     <main className="w-[100%] flex flex-col items-center space-y-4">
-      <div className="text-2xl font-bold">
-        {profile?.role === "admin" ? "Admin Profile" : "User Profile"}
-      </div>
-      <table className="table-auto border-separate border-spacing-2 bg-gray-300 rounded-xl p-4">
-        <tbody>
-          <tr>
-            <td className="text-md font-semibold text-black">Name</td>
-            <td>{profile?.name}</td>
-          </tr>
-          <tr>
-            <td className="text-md font-semibold text-black">Email</td>
-            <td>{profile?.email}</td>
-          </tr>
-          <tr>
-            <td className="text-md font-semibold text-black">Tel.</td>
-            <td>{profile?.tel}</td>
-          </tr>
-          <tr>
-            <td className="text-md font-semibold text-black">Member since</td>
-            <td>{profile ? new Date(profile.createdAt).toString() : "N/A"}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div className="text-2xl font-bold">New Reservation</div>
+      <div className="text-2xl font-bold">Edit Your Reservation</div>
       <div className="w-fit">
         <div className="text-md text-left font-semibold text-gray-600 mt-5">
           Reservation Information
@@ -151,8 +132,12 @@ export default function Reservation() {
         />
       </div>
 
-      <Button variant="contained" color="primary" onClick={handleReservation}>
-        Reserve Co-Working Space
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleEdit}
+      >
+        Confirm Editing
       </Button>
       <p className="text-red-500 mt-3">{message}</p>
     </main>

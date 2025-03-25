@@ -29,7 +29,7 @@ export default function Banner() {
         style={{ objectFit: "cover" }}
       />
       <div
-        className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50"
+        className="absolute inset-0 bg-gradient-to-b from-black/70 to-transparent"
         style={{ backdropFilter: "blur(4px)" }}
       />
       <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4">

@@ -4,12 +4,16 @@ import getReservations from "@/libs/getReservations";
 import deleteReservation from "@/libs/deleteReservation";
 import { ReservationItem } from "../../interface";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function ReservationList() {
-  const [reservationItems, setReservationItems] = useState<ReservationItem[]>([]);
+  const [reservationItems, setReservationItems] = useState<ReservationItem[]>(
+    []
+  );
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { data: session } = useSession();
+  const router = useRouter();
 
   if (!session || !session.user.token) {
     return (
@@ -64,13 +68,15 @@ export default function ReservationList() {
             className="bg-white rounded-lg px-5 py-3 my-3 hover:shadow-lg"
           >
             <div className="text-lg font-semibold">User: {item.user.name}</div>
-            <div className="text-md">Reserve Date: {item.reserveDate.toString()}</div>
+            <div className="text-md">
+              Reserve Date: {item.reserveDate.toString()}
+            </div>
             <div className="text-md">
               Co-Working Space: {item.coWorkingSpace.name}
             </div>
             <div className="flex justify-start mt-2">
               <button
-                className="rounded-md bg-red-500 hover:bg-red-800 px-3 py-1 text-black shadow-sm text-sm mr-3"
+                className="rounded-md bg-red-500 hover:bg-red-800 hover:text-white px-3 py-1 text-black shadow-sm text-sm mr-3"
                 onClick={async () => {
                   try {
                     await deleteReservation(item._id, session.user.token);
@@ -86,10 +92,13 @@ export default function ReservationList() {
                 Cancel Reservation
               </button>
               <button
-                className="rounded-md bg-green-600 hover:bg-green-700 px-3 py-1 text-white shadow-sm text-sm"
+                className="rounded-md bg-blue-600 hover:bg-green-600 px-3 py-1 text-white shadow-sm text-sm mr-3"
                 onClick={() => {
-                  // Implement the logic to handle editing the reservation
-                  console.log(`Edit reservation for ${item._id}`);
+                  sessionStorage.setItem(
+                    "coWorkingSpace",
+                    JSON.stringify(item.coWorkingSpace)
+                  );
+                  router.push(`/myreservation/${item._id}`);
                 }}
               >
                 Edit Reservation
