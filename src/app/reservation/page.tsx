@@ -1,19 +1,18 @@
 "use client";
 import DateReserve from "@/components/DateReserve";
-import { Select, MenuItem, TextField } from "@mui/material";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/authOptions";
+import { Select, MenuItem, TextField, Button } from "@mui/material";
+import createReservation from "@/libs/createReservation";
 import getUserProfile from "@/libs/getUserProfile";
-import { useState } from "react";
-import { useDispatch, UseDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { addReservation } from "@/redux/features/bookSlice";
+import { useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
-import { ReservationItem } from "../../../interface";
+import { CoWorkingSpaceItem, User } from "../../../interface";
+import { useSession } from "next-auth/react";
+import getCoWorkingSpaces from "@/libs/getCoWorkingSpaces";
 
-export default async function Reservation() {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user.token)
+export default function Reservation() {
+  const { data: session } = useSession();
+
+  if (!session || !session.user.token) {
     return (
       <main className="w-[100%] flex flex-col items-center space-y-4">
         <div className="font-semibold text-gray-600 text-xl text-center">
@@ -21,26 +20,58 @@ export default async function Reservation() {
         </div>
       </main>
     );
-
-  const profile = await getUserProfile(session.user.token);
-  var createdAt = new Date(profile.data.createdAt);
-
-  const dispatch = useDispatch<AppDispatch>();
+  }
 
   const [reserveDate, setReserveDate] = useState<Dayjs | null>(null);
-  const [user, setUser] = useState<string | null>(null);
-  const [coWorkingSpace, setCoWorkingSpace] = useState<string>("Nap Lab"); //change name
+  const [user, setUser] = useState<string>("");
+  const [coWorkingSpaces, setCoWorkingSpaces] = useState<CoWorkingSpaceItem[]>([]);
+  const [selectedSpace, setSelectedSpace] = useState<string>("");
+  const [profile, setProfile] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const createReservation = () => {
-    if (user && reserveDate && coWorkingSpace) {
-      const item: ReservationItem = {
-        coWorkingSpace: coWorkingSpace,
-        reserveDate: dayjs(reserveDate).format("YYYY/MM/DD"),
-        user: user,
-      };
-      dispatch(addReservation(item));
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await getUserProfile(session.user.token);
+        setProfile(response.data);
+        setUser(response.data._id);
+      } catch (error) {
+        console.error("Failed to fetch User Profile");
+      }
+    };
+
+    const fetchCoWorkingSpaces = async () => {
+      try {
+        const response = await getCoWorkingSpaces(session.user.token);
+        setCoWorkingSpaces(response.data);
+        console.log(coWorkingSpaces)
+      } catch (error) {
+        console.error("Failed to fetch co-working spaces:", error);
+      }
+    };
+
+    fetchUser();
+    fetchCoWorkingSpaces();
+    setLoading(false);
+  }, []);
+
+  const handleReservation = async () => {
+    if (!session || !user || !selectedSpace || !reserveDate) {
+      console.error("All fields must be filled before submission.");
+      return;
+    }
+
+    try {
+      await createReservation(session.user.token, reserveDate.toDate(), selectedSpace);
+      alert("Reservation created successfully!");
+    } catch (error) {
+      console.error("Error creating reservation:", error);
     }
   };
+
+  if (loading) {
+    return <div className="text-center text-gray-500 text-lg">Loading...</div>;
+  }
 
   return (
     <main className="w-[100%] flex flex-col items-center space-y-4">
@@ -49,19 +80,19 @@ export default async function Reservation() {
         <tbody>
           <tr>
             <td className="text-md font-semibold text-black">Name</td>
-            <td>{profile.data.name}</td>
+            <td>{profile?.name}</td>
           </tr>
           <tr>
             <td className="text-md font-semibold text-black">Email</td>
-            <td>{profile.data.email}</td>
+            <td>{profile?.email}</td>
           </tr>
           <tr>
             <td className="text-md font-semibold text-black">Tel.</td>
-            <td>{profile.data.tel}</td>
+            <td>{profile?.tel}</td>
           </tr>
           <tr>
             <td className="text-md font-semibold text-black">Member since</td>
-            <td>{createdAt.toString()}</td>
+            <td>{profile ? new Date(profile.createdAt).toString() : "N/A"}</td>
           </tr>
         </tbody>
       </table>
@@ -75,11 +106,10 @@ export default async function Reservation() {
           variant="standard"
           name="User"
           label="User"
-          onChange={(e) => {
-            setUser(e.target.value);
-          }}
-        ></TextField>
-        <br />
+          value={profile?.name || ""}
+          disabled
+        />
+
         <div className="text-md text-left font-semibold text-gray-600 mt-5">
           Co-Working Space Selection
         </div>
@@ -87,15 +117,16 @@ export default async function Reservation() {
           variant="standard"
           id="CoWorkingSpace"
           className="h-[2em] w-[200px]"
-          value={coWorkingSpace}
-          onChange={(e) => {
-            setCoWorkingSpace(e.target.value as string);
-          }}
+          value={selectedSpace}
+          onChange={(e) => setSelectedSpace(e.target.value)}
         >
-          <MenuItem value="Bloom">The Bloom Pavilion</MenuItem>
-          <MenuItem value="Spark">Spark space</MenuItem>
-          <MenuItem value="GrandTable">The Grand Table</MenuItem>//
+          {coWorkingSpaces.map((space) => (
+            <MenuItem key={space._id} value={space._id}>
+              {space.name}
+            </MenuItem>
+          ))}
         </Select>
+
         <div className="text-md text-left font-semibold text-gray-600 mt-5">
           Reservation Date
         </div>
@@ -106,13 +137,14 @@ export default async function Reservation() {
         />
       </div>
 
-      <button
-        name="Reserve CoWorkingSpace"
-        className="block rounded-md bg-sky-600 hover:bg-green-600 px-3 py-2 text-white shadow-sm"
-        onClick={createReservation}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleReservation}
+        disabled={!user || !selectedSpace || !reserveDate}
       >
         Reserve Co-Working Space
-      </button>
+      </Button>
     </main>
   );
 }

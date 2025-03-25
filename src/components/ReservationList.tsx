@@ -64,7 +64,7 @@ export default function ReservationList() {
             className="bg-white rounded-lg px-5 py-3 my-3 hover:shadow-lg"
           >
             <div className="text-lg font-semibold">User: {item.user.name}</div>
-            <div className="text-md">Reserve Date: {item.reserveDate}</div>
+            <div className="text-md">Reserve Date: {item.reserveDate.toString()}</div>
             <div className="text-md">
               Co-Working Space: {item.coWorkingSpace.name}
             </div>

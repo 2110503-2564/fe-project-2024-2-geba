@@ -1,21 +1,24 @@
-export default async function createReservation(user: string, reserveDate: string, coWorkingSpace: string, token:string) {
-    
-    const response = await fetch("https://cws-backend-five.vercel.app/api/v1/reservations", {
-        method: "POST",
-        headers: {
-            authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-        }, 
-        body: JSON.stringify({
-            user:user,
-            reserveDate:reserveDate,
-            coWorkingSpace:coWorkingSpace
-        }), 
-    })
-
+export default async function createReservation(
+    token: string,
+    reserveDate: Date,
+    coWorkingSpace: string
+  ) {
+    const response = await fetch(`https://cws-backend-five.vercel.app/api/v1/coWorkingSpaces/${coWorkingSpace}/reservations`, {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }, 
+      body: JSON.stringify({
+        reserveDate: reserveDate.toISOString() // Ensures proper date format
+      }), 
+    });
+  
     if (!response.ok) {
-        throw new Error("Cannot create new Reservation")
+      const errorData = await response.json();
+      throw new Error(`Cannot create reservation: ${errorData.message}`);
     }
-
-    return await response.json()
-}
+  
+    return await response.json();
+  }
+  

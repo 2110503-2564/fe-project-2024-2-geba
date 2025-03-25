@@ -18,7 +18,7 @@ export interface CoWorkingSpaceJson {
 export interface ReservationItem {
   _id: string;
   user: User;
-  reserveDate: string;
+  reserveDate: Date;
   coWorkingSpace: CoWorkingSpaceItem;
 }
 
@@ -28,5 +28,5 @@ export interface User {
   email: string;
   role: string;
   tel: string;
-  token: string;
+  createdAt: Date;
 }

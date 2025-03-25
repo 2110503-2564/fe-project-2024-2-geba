@@ -16,7 +16,7 @@ export default async function CoWorkingSpaceInfo() {
       </main>
     );
 
-  const coops = getCoWorkingSpaces(session.user.token);
+  const coops = await getCoWorkingSpaces(session.user.token);
 
   return (
     <main className="text-center p-5">

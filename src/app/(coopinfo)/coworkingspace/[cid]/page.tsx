@@ -22,12 +22,6 @@ export default async function CoopDetailPage({
 
   const coopDetail = await getCoworkingSpace(params.cid, session.user.token);
 
-  //mock data
-  // const mockVenueRepo = new Map();
-  // mockVenueRepo.set("001", { name: "The Bloom Pavilion", image: "/img/bloom.jpg" });
-  // mockVenueRepo.set("002", { name: "Spark Space", image: "/img/sparkspace.jpg" });
-  // mockVenueRepo.set("003", { name: "The Grand Table",image: "/img/grandtable.jpg",});
-
   return (
     <main className="text-center p-5">
       <h1 className="text-xl font-bold">{coopDetail.data.name}</h1>
