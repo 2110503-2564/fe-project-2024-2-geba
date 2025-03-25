@@ -28,13 +28,10 @@ export default function EditReservation() {
 
   const [reserveDate, setReserveDate] = useState<Dayjs | null>(null);
   const [user, setUser] = useState<string>("");
-  const [coWorkingSpaces, setCoWorkingSpaces] = useState<CoWorkingSpaceItem[]>(
-    []
-  );
-  const [selectedSpace, setSelectedSpace] = useState<string>("");
   const [profile, setProfile] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState("");
+  const spaceData = JSON.parse(sessionStorage.getItem("coWorkingSpace") || "{}");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -47,23 +44,12 @@ export default function EditReservation() {
       }
     };
 
-    const fetchCoWorkingSpaces = async () => {
-      try {
-        const response = await getCoWorkingSpaces(session.user.token);
-        setCoWorkingSpaces(response.data);
-        console.log(coWorkingSpaces);
-      } catch (error) {
-        console.error("Failed to fetch co-working spaces:", error);
-      }
-    };
-
     fetchUser();
-    fetchCoWorkingSpaces();
     setLoading(false);
   }, []);
 
   const handleEdit = async () => {
-    if (!session || !user || !selectedSpace || !reserveDate) {
+    if (!session || !user || !reserveDate) {
       setMessage("All fields must be filled before submission.");
       return;
     }
@@ -108,19 +94,7 @@ export default function EditReservation() {
         <div className="text-md text-left font-semibold text-gray-600 mt-5">
           Co-Working Space Selection
         </div>
-        <Select
-          variant="standard"
-          id="CoWorkingSpace"
-          className="h-[2em] w-[200px]"
-          value={selectedSpace}
-          onChange={(e) => setSelectedSpace(e.target.value)}
-        >
-          {coWorkingSpaces.map((space) => (
-            <MenuItem key={space._id} value={space._id}>
-              {space.name}
-            </MenuItem>
-          ))}
-        </Select>
+        <div className="font-semibold">{spaceData.name}</div>
 
         <div className="text-md text-left font-semibold text-gray-600 mt-5">
           Reservation Date
