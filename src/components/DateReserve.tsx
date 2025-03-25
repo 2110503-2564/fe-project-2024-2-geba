@@ -4,6 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState } from "react";
 import { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 export default function DateReserve({
   onDateChange,
@@ -11,6 +12,19 @@ export default function DateReserve({
   onDateChange: Function;
 }) {
   const [reserveDate, setReserveDate] = useState<Dayjs | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const handleDateChange = (value: Dayjs | null) => {
+    if (value && value.isBefore(dayjs(), 'day')) {
+      setErrorMessage("You cannot select a past date.");
+      setReserveDate(null);
+      onDateChange(null); 
+    } else {
+      setErrorMessage("");
+      setReserveDate(value);
+      onDateChange(value);
+    }
+  };
 
   return (
     <div
@@ -21,12 +35,12 @@ export default function DateReserve({
         <DatePicker
           className="bg-white"
           value={reserveDate}
-          onChange={(value) => {
-            setReserveDate(value);
-            onDateChange(value);
-          }}
+          onChange={handleDateChange}
         />
       </LocalizationProvider>
+      {errorMessage && (
+        <p className="text-red-500 text-md mt-2">{errorMessage}</p>
+      )}
     </div>
   );
 }
